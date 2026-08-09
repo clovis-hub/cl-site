@@ -1,0 +1,159 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Clovis Dashboard | 2026-08-09 00:07:53</title><script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.5.0/echarts.min.js"></script><script>if(typeof echarts=="undefined"){document.write('<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>')}</script><style>
+:root{--bg:#060b14;--panel:#0e1628;--card:#182236;--border:rgba(56,189,248,0.08);--cyan:#38bdf8;--em:#34d399;--rs:#fb7185;--am:#fbbf24;--vi:#a78bfa;--bl:#60a5fa;--tx:#e2e8f0;--td:#64748b;--tm:#475569}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Inter","Segoe UI","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--tx);min-height:100vh}
+.wrap{max-width:1440px;margin:0 auto;padding:16px 20px}
+.hd{background:linear-gradient(135deg,rgba(56,189,248,0.06),rgba(139,92,246,0.04));border-bottom:1px solid var(--border);padding:16px 32px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;backdrop-filter:blur(20px)}
+.hd-l{display:flex;align-items:center;gap:12px}
+.hd-logo{width:36px;height:36px;background:linear-gradient(135deg,var(--cyan),var(--vi));border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;color:#fff;box-shadow:0 0 16px rgba(56,189,248,0.2)}
+.hd h1{font-size:20px;font-weight:700;background:linear-gradient(90deg,#38bdf8,#a78bfa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hd-r{display:flex;align-items:center;gap:14px}
+.hd-badge{background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.15);padding:4px 12px;border-radius:16px;font-size:11px;color:var(--cyan)}
+.hd-time{font-size:12px;color:var(--td);font-family:"SF Mono",monospace}
+.tabs{display:flex;gap:4px;margin-bottom:16px;background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:4px;overflow-x:auto}
+.tab{padding:10px 22px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;color:var(--td);transition:all 0.2s;white-space:nowrap;border:none;background:none;font-family:inherit}
+.tab:hover{color:var(--tx);background:rgba(56,189,248,0.06)}
+.tab.active{color:#fff;background:linear-gradient(135deg,rgba(56,189,248,0.15),rgba(139,92,246,0.1));box-shadow:0 0 12px rgba(56,189,248,0.05)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:16px}
+.kpi-c{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;text-align:center}
+.kpi-c .icon{font-size:18px}
+.kpi-c .v{font-size:22px;font-weight:700;font-family:"SF Mono",monospace}
+.kpi-c .l{font-size:10px;color:var(--td);text-transform:uppercase;letter-spacing:0.4px;margin-top:2px}
+.gn{color:var(--em)}.rd{color:var(--rs)}.cy{color:var(--cyan)}.vi{color:var(--vi)}.am{color:var(--am)}.bl{color:var(--bl)}
+.pnl{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:14px}
+.pnl-t{font-size:13px;font-weight:600;color:var(--td);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.pnl-t .d{width:5px;height:5px;border-radius:50%;display:inline-block}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{padding:8px 12px;text-align:left;color:var(--td);font-weight:500;border-bottom:1px solid var(--border);font-size:11px;text-transform:uppercase;letter-spacing:0.4px}
+td{padding:6px 12px;border-bottom:1px solid rgba(255,255,255,0.02)}
+tr:hover td{background:rgba(56,189,248,0.02)}
+.mv{font-family:"SF Mono",monospace;font-weight:600}
+.sig{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:8px;border-left:3px solid #6b7280}
+.sig-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;flex-wrap:wrap;gap:6px}
+.sig-lv{font-size:12px;font-weight:700;padding:2px 10px;border-radius:12px}
+.sig-lv.s{background:rgba(239,68,68,0.12);color:#f87171}
+.sig-lv.m{background:rgba(245,158,11,0.1);color:#fbbf24}
+.sig-lv.w{background:rgba(107,114,128,0.1);color:#9ca3af}
+.sig-sec{font-size:11px;font-weight:600;color:var(--cyan);background:rgba(56,189,248,0.06);padding:2px 10px;border-radius:12px}
+.sig-t{color:var(--td);font-size:12px;line-height:1.5;margin-bottom:8px;padding:6px 10px;background:rgba(0,0,0,0.15);border-radius:6px}
+.sig-s{display:flex;flex-wrap:wrap;gap:6px}
+.stk{display:flex;align-items:center;gap:8px;padding:5px 10px;background:rgba(0,0,0,0.12);border-radius:8px;font-size:12px}
+.stk-n{font-weight:600;color:#f1f5f9}
+.stk-c{color:var(--tm);font-size:10px}
+.stk-p{font-weight:700;font-size:13px}
+.p-up{color:var(--em)}.p-dn{color:var(--rs)}.p-fl{color:var(--td)}
+.bdg{padding:1px 6px;border-radius:4px;font-size:10px;font-weight:600}
+.bdg-A{background:rgba(52,211,153,0.12);color:var(--em)}
+.bdg-B{background:rgba(96,165,250,0.1);color:var(--bl)}
+.bdg-C{background:rgba(251,191,36,0.08);color:var(--am)}
+.bdg-D{background:rgba(251,113,133,0.1);color:var(--rs)}
+.rw{display:flex;gap:8px;flex-wrap:wrap}
+.rw-i{padding:6px 12px;border-radius:8px;font-size:11px;font-weight:600}
+.rw-ok{background:rgba(52,211,153,0.08);color:var(--em);border:1px solid rgba(52,211,153,0.12)}
+.rw-warn{background:rgba(251,191,36,0.08);color:var(--am);border:1px solid rgba(251,191,36,0.12)}
+.rw-danger{background:rgba(251,113,133,0.08);color:var(--rs);border:1px solid rgba(251,113,133,0.12)}
+.chart-box{width:100%;height:300px}
+.ftr{text-align:center;padding:16px;color:var(--tm);font-size:11px;border-top:1px solid var(--border);margin-top:10px}
+.bc{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
+.bc-i{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;border-left:3px solid var(--td);transition:all 0.2s}
+.bc-i:hover{border-color:rgba(56,189,248,0.2);transform:translateY(-1px)}
+.bc-i.buy{border-left-color:var(--em);background:linear-gradient(135deg,rgba(52,211,153,0.04),rgba(56,189,248,0.02))}
+.bc-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:4px}
+.bc-nm{font-weight:700;font-size:15px;color:#f1f5f9}
+.bc-cd{font-size:11px;color:var(--td);font-family:"SF Mono",monospace}
+.bc-bs{font-size:11px;padding:2px 8px;border-radius:10px;font-weight:600;white-space:nowrap}
+.bc-bs.buy{background:rgba(52,211,153,0.12);color:var(--em)}
+.bc-bs.watch{background:rgba(96,165,250,0.1);color:var(--bl)}
+.bc-bs.wait{background:rgba(251,191,36,0.08);color:var(--am)}
+.bc-bs.avoid{background:rgba(251,113,133,0.1);color:var(--rs)}
+.bc-tg{display:flex;flex-wrap:wrap;gap:4px;margin:6px 0}
+.bc-tag{font-size:10px;padding:2px 8px;border-radius:8px;background:rgba(56,189,248,0.06);color:var(--cyan)}
+.bc-meta{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--td)}
+.bc-meta span{font-family:"SF Mono",monospace;font-weight:600}
+.sec-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.sec-chip{padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--card);color:var(--tx);cursor:pointer;font-size:12px;text-align:left;transition:all 0.15s;font-family:inherit;min-width:130px}
+.sec-chip:hover{border-color:rgba(56,189,248,0.25);transform:translateY(-1px)}
+.sec-chip.active{background:linear-gradient(135deg,rgba(56,189,248,0.16),rgba(139,92,246,0.08));border-color:rgba(56,189,248,0.4);box-shadow:0 0 14px rgba(56,189,248,0.08)}
+.sec-chip .sec-nm{display:block;font-weight:700;font-size:13px;margin-bottom:3px}
+.sec-chip .sec-meta{display:flex;justify-content:space-between;font-family:"SF Mono",monospace;font-size:11px;color:var(--td)}
+.sec-chip .sec-n{color:var(--am);font-size:10px;background:rgba(251,191,36,0.08);padding:1px 6px;border-radius:8px}
+.sec-grid{display:none}
+.sec-grid.active{display:block}
+.bc-lead{display:inline-block;font-size:9px;padding:1px 7px;border-radius:8px;background:rgba(251,113,133,0.14);color:#fb7185;font-weight:700;margin-left:4px;vertical-align:middle}
+.bc-tr{font-size:10px;color:var(--td);margin-top:8px;line-height:1.5;display:flex;flex-wrap:wrap;gap:4px}
+.bc-tr span{background:rgba(0,0,0,0.18);padding:2px 7px;border-radius:6px}
+</style><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"></head><body><div class="hd"><div class="hd-l"><div class="hd-logo">C</div><h1>CLOVIS 量化仪表盘</h1></div><div class="hd-r"><span class="hd-badge ">➡️ 震荡</span><span class="hd-time">2026-08-09 00:07:53</span></div></div><div class="wrap"><div class="kpi"><div class="kpi-c"><div class="icon">📡</div><div class="v cy">20</div><div class="l">事件信号</div></div><div class="kpi-c"><div class="icon">🔴</div><div class="v rd">0</div><div class="l">强信号</div></div><div class="kpi-c"><div class="icon">🟡</div><div class="v am">20</div><div class="l">中信号</div></div><div class="kpi-c"><div class="icon">📊</div><div class="v vi">88</div><div class="l">覆盖标的</div></div><div class="kpi-c"><div class="icon">🎯</div><div class="v cy">0</div><div class="l">热门板块</div></div></div><div class="tabs"><button class="tab active" data-tab="tab1">🔥 热门板块</button><button class="tab" data-tab="tab2">📡 事件信号</button><button class="tab" data-tab="tab3">📈 市场雷达</button></div><div id="tab1" class="tab-panel active"><div class="pnl"><div class="pnl-t"><span class="d" style="background:var(--rs)"></span>🔥 每日热门板块</div><div style="color:var(--td);padding:20px;text-align:center">热门板块数据获取失败，请稍后重试</div></div></div><div id="tab2" class="tab-panel"><div class="pnl"><div class="pnl-t"><span class="d" style="background:var(--rs)"></span>事件信号 (20条)</div><div class="sig"><div class="sig-h"><span class="sig-lv m">M 📰事件</span><span class="sig-sec">人形机器人</span></div><div class="sig-t">[CONCEPT:人形机器人]概念板块今日强势，涨幅+2.85%，资金重点关注</div><div class="sig-s"><div class="stk"><span class="stk-n">哈工智能</span><span class="stk-c">(sz002900)</span><span class="bdg bdg-A">A</span><span class="stk-p p-up">+10.04%</span></div><div class="stk"><span class="stk-n">机器人</span><span class="stk-c">(sz300024)</span><span class="bdg bdg-A">A</span><span class="stk-p p-up">+0.77%</span></div><div class="stk"><span class="stk-n">汇川技术</span><span class="stk-c">(sz300124)</span><span class="bdg bdg---">--</span><span class="stk-p p-fl">+0.00%</span></div></div></div><div class="sig"><div class="sig-h"><span class="sig-lv m">M 📰事件</span><span class="sig-sec">玻璃基板</span></div><div class="sig-t">[CONCEPT:玻璃基板]概念板块今日强势，涨幅+4.53%，资金重点关注</div><div class="sig-s"><div class="stk"><span class="stk-n">赛微电子</span><span class="stk-c">(sz300456)</span><span class="bdg bdg-A">A</span><span class="stk-p p-up">+1.49%</span></div><div class="stk"><span class="stk-n">光迅科技</span><span class="stk-c">(sz002281)</span><span class="bdg bdg---">--</span><span class="stk-p p-fl">+0.00%</span></div><div class="stk"><span class="stk-n">天孚通信</span><span class="stk-c">(sz300394)</span><span class="bdg bdg---">--</span><span class="stk-p p-fl">+0.00%</span></div></div></div><div class="sig"><div class="sig-h"><span class="sig-lv m">M 📰事件</span><span class="sig-sec">AI眼镜</span></div><div class="sig-t">[CONCEPT:AI眼镜]概念板块今日强势，涨幅+4.53%，资金重点关注</div><div class="sig-s"><div class="stk"><span class="stk-n">赛微电子</span><span class="stk-c">(sz300456)</span><span class="bdg bdg-A">A</span><span class="stk-p p-up">+1.49%</span></div><div class="stk"><span class="stk-n">光迅科技</span><span class="stk-c">(sz002281)</span><span class="bdg bdg---">--</span><span class="stk-p p-fl">+0.00%</span></div><div class="stk"><span class="stk-n">天孚通信</span><span class="stk-c">(sz300394)</span><span class="bdg bdg---">--</span><span class="stk-p p-fl">+0.00%</span></div></div></div><div class="sig"><div class="sig-h"><span class="sig-lv m">M 📰事件</span><span class="sig-sec">光纤概念</span></div><div class="sig-t">[CONCEPT:光纤概念]概念板块今日强势，涨幅+4.53%，资金重点关注</div><div class="sig-s"><div class="stk"><span class="stk-n">赛微电子</span><span class="stk-c">(sz300456)</span><span class="bdg bdg-A">A</span><span class="stk-p p-up">+1.49%</span></div><div class="stk"><span class="stk-n">光迅科技</span><span class="stk-c">(sz002281)</span><span class="bdg bdg---">--</span><span class="stk-p p-fl">+0.00%</span></div><div class="stk"><span class="stk-n">天孚通信</span><span class="stk-c">(sz300394)</span><span class="bdg bdg---">--</span><span class="stk-p p-fl">+0.00%</span></div></div></div><div class="sig"><div class="sig-h"><span class="sig-lv m">M 📰事件</span><span class="sig-sec">军工信息化</span></div><div class="sig-t">[CONCEPT:军工信息化]概念板块今日强势，涨幅+3.72%，资金重点关注</div><div class="sig-s"><div class="stk"><span class="stk-n">海格通信</span><span class="stk-c">(sz002465)</span><span class="bdg bdg-A">A</span><span class="stk-p p-up">+1.40%</span></div><div class="stk"><span class="stk-n">润建股份</span><span class="stk-c">(sz002929)</span><span class="bdg bdg-A">A</span><span class="stk-p p-up">+1.21%</span></div><div class="stk"><span class="stk-n">中航光电</span><span class="stk-c">(sz002179)</span><span class="bdg bdg---">--</span><span class="stk-p p-fl">+0.00%</span></div></div></div><div class="sig"><div class="sig-h"><span class="sig-lv m">M 📰事件</span><span class="sig-sec">光刻机</span></div><div class="sig-t">[CONCEPT:光刻机]概念板块今日强势，涨幅+3.70%，资金重点关注</div><div class="sig-s"><div class="stk"><span class="stk-n">灿勤科技</span><span class="stk-c">(sz300323)</span><span class="bdg bdg-A">A</span><span class="stk-p p-up">+3.28%</span></div><div class="stk"><span class="stk-n">万邦达</span><span class="stk-c">(sz002082)</span><span class="bdg bdg-A">A</span><span class="stk-p p-up">+2.45%</span></div><div class="stk"><span class="stk-n">北方华创</span><span class="stk-c">(sz002371)</span><span class="bdg bdg---">--</span><span class="stk-p p-fl">+0.00%</span></div></div></div><div class="sig"><div class="sig-h"><span class="sig-lv m">M 📰事件</span><span class="sig-sec">星闪概念</span></div><div class="sig-t">[CONCEPT:星闪概念]概念板块今日强势，涨幅+3.15%，资金重点关注</div><div class="sig-s"><div class="stk"><span class="stk-n">海格通信</span><span class="stk-c">(sz002465)</span><span class="bdg bdg-A">A</span><span class="stk-p p-up">+1.40%</span></div><div class="stk"><span class="stk-n">光迅科技</span><span class="stk-c">(sz002281)</span><span class="bdg bdg---">--</span><span class="stk-p p-fl">+0.00%</span></div><div class="stk"><span class="stk-n">亿联网络</span><span class="stk-c">(sz300628)</span><span class="bdg bdg---">--</span><span class="stk-p p-fl">+0.00%</span></div></div></div><div class="sig"><div class="sig-h"><span class="sig-lv m">M 📰事件</span><span class="sig-sec">兵装重组概念</span></div><div class="sig-t">[CONCEPT:兵装重组概念]概念板块今日强势，涨幅+3.08%，资金重点关注</div><div class="sig-s"><div class="stk"><span class="stk-n">中大力德</span><span class="stk-c">(sz002896)</span><span class="bdg bdg-A">A</span><span class="stk-p p-up">+0.46%</span></div><div class="stk"><span class="stk-n">北摩高科</span><span class="stk-c">(sz002985)</span><span class="bdg bdg-A">A</span><span class="stk-p p-dn">-0.61%</span></div><div class="stk"><span class="stk-n">中航光电</span><span class="stk-c">(sz002179)</span><span class="bdg bdg---">--</span><span class="stk-p p-fl">+0.00%</span></div></div></div><div class="sig"><div class="sig-h"><span class="sig-lv m">M 📰事件</span><span class="sig-sec">可控核聚变</span></div><div class="sig-t">[CONCEPT:可控核聚变]概念板块今日强势，涨幅+1.32%，资金重点关注</div><div class="sig-s"><div class="stk"><span class="stk-n">良信股份</span><span class="stk-c">(sz002706)</span><span class="bdg bdg-A">A</span><span class="stk-p p-dn">-0.89%</span></div><div class="stk"><span class="stk-n">冰轮环境</span><span class="stk-c">(sz002207)</span><span class="bdg bdg-B">B</span><span class="stk-p p-dn">-2.00%</span></div><div class="stk"><span class="stk-n">阳光电源</span><span class="stk-c">(sz300274)</span><span class="bdg bdg---">--</span><span class="stk-p p-fl">+0.00%</span></div></div></div><div class="sig"><div class="sig-h"><span class="sig-lv m">M 📰事件</span><span class="sig-sec">低空经济</span></div><div class="sig-t">[CONCEPT:低空经济]概念板块今日强势，涨幅+0.85%，资金重点关注</div><div class="sig-s"><div class="stk"><span class="stk-n">腾盾科创</span><span class="stk-c">(sz300101)</span><span class="bdg bdg-A">A</span><span class="stk-p p-up">+2.41%</span></div><div class="stk"><span class="stk-n">海格通信</span><span class="stk-c">(sz002465)</span><span class="bdg bdg-A">A</span><span class="stk-p p-up">+1.40%</span></div><div class="stk"><span class="stk-n">威海广泰</span><span class="stk-c">(sz002111)</span><span class="bdg bdg-A">A</span><span class="stk-p p-up">+0.42%</span></div></div></div><div class="sig"><div class="sig-h"><span class="sig-lv m">M 📰事件</span><span class="sig-sec">商业航天</span></div><div class="sig-t">[CONCEPT:商业航天]概念板块今日强势，涨幅+0.46%，资金重点关注</div><div class="sig-s"><div class="stk"><span class="stk-n">海格通信</span><span class="stk-c">(sz002465)</span><span class="bdg bdg-A">A</span><span class="stk-p p-up">+1.40%</span></div><div class="stk"><span class="stk-n">润建股份</span><span class="stk-c">(sz002929)</span><span class="bdg bdg-A">A</span><span class="stk-p p-up">+1.21%</span></div><div class="stk"><span class="stk-n">亿联网络</span><span class="stk-c">(sz300628)</span><span class="bdg bdg---">--</span><span class="stk-p p-fl">+0.00%</span></div></div></div><div class="sig"><div class="sig-h"><span class="sig-lv m">M 📰事件</span><span class="sig-sec">长安汽车概念</span></div><div class="sig-t">[CONCEPT:长安汽车概念]概念板块今日强势，涨幅+0.26%，资金重点关注</div><div class="sig-s"><div class="stk"><span class="stk-n">中科创达</span><span class="stk-c">(sz300496)</span><span class="bdg bdg-A">A</span><span class="stk-p p-dn">-0.60%</span></div><div class="stk"><span class="stk-n">四维图新</span><span class="stk-c">(sz002405)</span><span class="bdg bdg-A">A</span><span class="stk-p p-dn">-1.34%</span></div><div class="stk"><span class="stk-n">三花智控</span><span class="stk-c">(sz002050)</span><span class="bdg bdg---">--</span><span class="stk-p p-fl">+0.00%</span></div></div></div><div class="sig"><div class="sig-h"><span class="sig-lv m">M 📰事件</span><span class="sig-sec">小米汽车</span></div><div class="sig-t">[CONCEPT:小米汽车]概念板块今日强势，涨幅+0.26%，资金重点关注</div><div class="sig-s"><div class="stk"><span class="stk-n">中科创达</span><span class="stk-c">(sz300496)</span><span class="bdg bdg-A">A</span><span class="stk-p p-dn">-0.60%</span></div><div class="stk"><span class="stk-n">四维图新</span><span class="stk-c">(sz002405)</span><span class="bdg bdg-A">A</span><span class="stk-p p-dn">-1.34%</span></div><div class="stk"><span class="stk-n">三花智控</span><span class="stk-c">(sz002050)</span><span class="bdg bdg---">--</span><span class="stk-p p-fl">+0.00%</span></div></div></div><div class="sig"><div class="sig-h"><span class="sig-lv m">M 📰事件</span><span class="sig-sec">AI PC</span></div><div class="sig-t">[CONCEPT:AI PC]概念板块今日强势，涨幅+0.13%，资金重点关注</div><div class="sig-s"><div class="stk"><span class="stk-n">中科创达</span><span class="stk-c">(sz300496)</span><span class="bdg bdg-A">A</span><span class="stk-p p-dn">-0.60%</span></div><div class="stk"><span class="stk-n">科大讯飞</span><span class="stk-c">(sz002230)</span><span class="bdg bdg---">--</span><span class="stk-p p-fl">+0.00%</span></div><div class="stk"><span class="stk-n">昆仑万维</span><span class="stk-c">(sz300418)</span><span class="bdg bdg---">--</span><span class="stk-p p-fl">+0.00%</span></div></div></div><div class="sig"><div class="sig-h"><span class="sig-lv m">M 📰事件</span><span class="sig-sec">AI应用</span></div><div class="sig-t">[CONCEPT:AI应用]概念板块今日强势，涨幅-0.16%，资金重点关注</div><div class="sig-s"><div class="stk"><span class="stk-n">思特奇</span><span class="stk-c">(sz300859)</span><span class="bdg bdg-A">A</span><span class="stk-p p-up">+1.48%</span></div><div class="stk"><span class="stk-n">中科创达</span><span class="stk-c">(sz300496)</span><span class="bdg bdg-A">A</span><span class="stk-p p-dn">-0.60%</span></div><div class="stk"><span class="stk-n">科大讯飞</span><span class="stk-c">(sz002230)</span><span class="bdg bdg---">--</span><span class="stk-p p-fl">+0.00%</span></div></div></div></div></div><div id="tab3" class="tab-panel"><div class="pnl"><div class="pnl-t"><span class="d" style="background:var(--bl)"></span>市场状态</div><div class="kpi" style="grid-template-columns:repeat(auto-fit,minmax(100px,1fr))"><div class="kpi-c"><div class="v cy">+0.003</div><div class="l">市场动量</div></div><div class="kpi-c"><div class="v vi">+0.191</div><div class="l">市场趋势</div></div><div class="kpi-c"><div class="v am">+0.371</div><div class="l">成交量能</div></div><div class="kpi-c"><div class="v rd">+0.217</div><div class="l">波动水平</div></div></div><div style="margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:14px"><div><div class="pnl-t" style="margin-bottom:8px"><span class="d" style="background:var(--em)"></span>市场因子分布 (Top50)</div><div id="chart-bar" class="chart-box" style="height:250px"></div></div><div><div class="pnl-t" style="margin-bottom:8px"><span class="d" style="background:var(--am)"></span>因子权重配置</div><div id="chart-pie" class="chart-box" style="height:250px"></div></div></div></div></div><div class="ftr"><strong>CLOVIS</strong> 量化系统 v4.0 | 数据来源:腾讯财经 | ⚠️ 仅供参考</div>
+<script>
+// ─── Tab Switching (独立运行, 不受ECharts影响) ───
+(function(){
+  var tabs = document.querySelectorAll(".tab");
+  function switchTab(id){
+    document.querySelectorAll(".tab").forEach(function(t){t.classList.remove("active")});
+    document.querySelectorAll(".tab-panel").forEach(function(p){p.classList.remove("active")});
+    var btn = document.querySelector(".tab[data-tab=\""+id+"\"]");
+    var pnl = document.getElementById(id);
+    if(btn) btn.classList.add("active");
+    if(pnl){pnl.classList.add("active");setTimeout(function(){try{window.dispatchEvent(new Event("resize"))}catch(e){}},200)}
+  }
+  for(var i=0;i<tabs.length;i++){
+    (function(t){t.addEventListener("click",function(){switchTab(this.getAttribute("data-tab"))})})(tabs[i]);
+  }
+})();
+</script>
+<script>
+// ─── 热门板块选股: 点击板块切换个股 (独立运行) ───
+(function(){
+  var chips = document.querySelectorAll(".sec-chip");
+  function pick(sec){
+    for(var i=0;i<chips.length;i++) chips[i].classList.remove("active");
+    document.querySelectorAll(".sec-grid").forEach(function(g){g.classList.remove("active")});
+    var c = document.querySelector('.sec-chip[data-sec="'+sec+'"]');
+    var g = document.getElementById("sec"+sec);
+    if(c) c.classList.add("active");
+    if(g) g.classList.add("active");
+  }
+  for(var i=0;i<chips.length;i++){
+    (function(ch){ch.addEventListener("click",function(){pick(this.getAttribute("data-sec"))})})(chips[i]);
+  }
+})();
+</script>
+<script>
+// ─── Charts (容错, CDN失败也不影响其他功能) ───
+(function(){
+  if(typeof echarts === "undefined"){console.warn("ECharts CDN unavailable");return}
+  try{
+    var fb = echarts.init(document.getElementById("chart-bar"));
+    var fLabels = ["动量", "趋势", "成交量", "波动率", "流动性", "稳定性"];
+    var fVals = [0.0032, 0.1914, 0.3707, 0.2173, 0.4216, 0.1483];
+    fb.setOption({
+      backgroundColor:"transparent",grid:{left:40,right:10,top:10,bottom:25},
+      xAxis:{type:"category",data:fLabels,axisLabel:{color:"#64748b",fontSize:10}},
+      yAxis:{type:"value",axisLabel:{color:"#64748b",fontSize:9},splitLine:{lineStyle:{color:"rgba(56,189,248,0.04)"}}},
+      series:[{type:"bar",data:fVals,barMaxWidth:24,
+        itemStyle:{color:{type:"linear",x:0,y:0,x2:0,y2:1,
+          colorStops:[{offset:0,color:"rgba(56,189,248,0.7)"},{offset:1,color:"rgba(139,92,246,0.3)"}]}}}]
+    });
+    fb.resize();
+  }catch(e){console.warn("Bar error:",e)}
+  try{
+    var pc = echarts.init(document.getElementById("chart-pie"));
+    var pw = {"momentum":1.2,"trend":1.0,"volume":0.8,"volatility":0.4,"liquidity":0.3,"stability":0.6};
+    var pieData = Object.keys(pw).map(function(k){return {name:k,value:pw[k]}});
+    pc.setOption({
+      backgroundColor:"transparent",tooltip:{formatter:function(p){return p.name+": "+p.value}},
+      series:[{type:"pie",data:pieData,radius:["35%","60%"],center:["50%","50%"],
+        label:{color:"#94a3b8",fontSize:10,formatter:function(p){return p.name}},
+        itemStyle:{borderColor:"#0e1628",borderWidth:2},
+        color:["#38bdf8","#34d399","#a78bfa","#fbbf24","#60a5fa","#fb7185"]}]
+    });
+    pc.resize();
+  }catch(e){console.warn("Pie error:",e)}
+  window.addEventListener("resize",function(){
+    try{if(fb)fb.resize()}catch(e){}
+    try{if(pc)pc.resize()}catch(e){}
+  });
+})();
+</script>
+</body></html>
